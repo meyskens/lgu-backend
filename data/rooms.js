@@ -5,6 +5,7 @@ const RoomSchema = new Schema({
     name: String,
     width: Number,
     height: Number,
+    length: Number,
     location: String,
     description: String,
     dependsOn: [
