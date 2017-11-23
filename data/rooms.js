@@ -15,8 +15,8 @@ const RoomSchema = new Schema({
     ],
 }, { collection: "rooms" }) 
 
-const RoomModel = db.model("rooms", RoomSchema, "room")
+const RoomModel = db.model("rooms", RoomSchema, "rooms")
 
 module.exports.getAll = () => {
-    return RoomModel.find()
+    return RoomModel.find({})
 }
