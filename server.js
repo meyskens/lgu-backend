@@ -18,8 +18,10 @@ const users = require("./data/users")
 let wrap = fn => (...args) => fn(...args).catch(args[2])
 
 
-//app.use(cors());
-//app.options("*", cors())
+if (process.env.NOCORS) {
+    app.use(cors());
+    app.options("*", cors())
+}
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
