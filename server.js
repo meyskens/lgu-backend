@@ -3,9 +3,12 @@ const app = express()
 const expressJwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
 
-//security keys
+// security keys
 const publicKey = fs.readFileSync("./keys/publicKey.pem");
 const cert = fs.readFileSync("./keys/signingKey.pem");
+
+// db objects
+const users = require("./data/users")
 
 app.use("/v1/user/*", expressJwt({
     secret: publicKey,
@@ -28,7 +31,7 @@ app.post("/v1/login", wrap(async (req, res) => {
         throw new BadRequestError("Missing data");
     }
    
-    const correct = true // TO DO FIX MEEEEE
+    const correct = uses.checkLogin(req.body.email, req.body.password)
     if (!correct) {
         return res.status(401).json({
             error: "Wrong login",
