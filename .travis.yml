@@ -2,6 +2,10 @@ sudo: required
 services:
 - docker
 before_install:
+- openssl aes-256-cbc -K $encrypted_011c5f4a1666_key -iv $encrypted_011c5f4a1666_iv
+  -in signingKey.pem.enc -out keys/signingKey.pem -d
+- openssl aes-256-cbc -K $encrypted_011c5f4a1666_key -iv $encrypted_011c5f4a1666_iv
+  -in publicKey.pem.enc -out keys/publicKey.pem -d
 - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
   $(lsb_release -cs) stable"
@@ -14,5 +18,4 @@ script:
 - docker build -t reg.dispatch.sh/maartje/lgu-backend.dispatch.sh ./
 after_success:
 - if [ "$TRAVIS_BRANCH" == "master" ]; then docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    reg.dispatch.sh; docker push reg.dispatch.sh/maartje/lgu-backend.dispatch.sh;
-  fi
+  reg.dispatch.sh; docker push reg.dispatch.sh/maartje/lgu-backend.dispatch.sh; fi

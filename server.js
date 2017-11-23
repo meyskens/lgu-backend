@@ -1,10 +1,58 @@
 const express = require("express")
 const app = express()
+const expressJwt = require('express-jwt');
+const jwt = require('jsonwebtoken');
 
-app.listen(8080, () => {
-    console.log("Server started")
-})
+//security keys
+const publicKey = fs.readFileSync("./keys/publicKey.pem");
+const cert = fs.readFileSync("./keys/signingKey.pem");
+
+app.use("/v1/user/*", expressJwt({
+    secret: publicKey,
+    audience: "https://lgu-backend.dispatch.sh/",
+}));
+
+app.all("/control/*", function checkToken(req, res, next) {
+    wait.launchFiber(() => {
+        let [scheme, token] = req.headers.authorization.split(" ");
+        if (!/^Bearer$/i.test(scheme)) {
+            return next(new BadRequestError("No token was found in the Authorization header."));
+        }
+        req.token = token;
+        return next(); // allow request to continue
+    });
+});
+
+app.post("/v1/login", wrap(async (req, res) => {
+    if (typeof req.body.email === "undefined" || typeof req.body.password === "undefined") {
+        throw new BadRequestError("Missing data");
+    }
+   
+    const correct = true // TO DO FIX MEEEEE
+    if (!correct) {
+        return res.status(401).json({
+            error: "Wrong login",
+            result: "error",
+        });
+    }
+
+    const token = jwt.sign({
+        email: req.body.email,
+        test: "ok",
+    }, cert, {
+        expiresInMinutes: 60,
+        audience: "https://lgu-backend.dispatch.sh/",
+        algorithm: "RS256",
+    });
+    await invalidateCacheForEmail(req.body.email);
+    res.json({ token });
+}));
+
 
 app.get("/", (req, res) => {
     res.send("Hello world, let's serve urban!")
+})
+
+app.listen(8080, () => {
+    console.log("Server started")
 })
