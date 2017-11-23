@@ -25,6 +25,10 @@ module.exports.checkLogin = async (email, password) => {
     return await bcrypt.compare(password, user.password)
 }
 
+module.exports.getUser = (email) => {
+    return UserModel.findOne({ email })
+} 
+
 module.exports.addUser = async (user) => {
     const hash = await bcrypt.hash(user.password, 10)
     user.password = hash

@@ -39,6 +39,18 @@ app.all("/v1/user/*", (req, res, next) => {
         return next(); // allow request to continue
 });
 
+app.all("/v1/admin/*", (req, res, next) => {
+    let [scheme, token] = req.headers.authorization.split(" ");
+    if (!/^Bearer$/i.test(scheme)) {
+        return res.status(400).json({ "error": "No token was found in the Authorization header." })
+    }
+    req.token = token;
+    if (!req.user.isAdmin) {
+        return res.status(401).json({ "error": "Unauthorized" })
+    }
+    return next(); // allow request to continue
+});
+
 app.post("/v1/login", wrap(async (req, res) => {
     if (!req.body || !req.body.email || !req.body.password) {
         return res.status(400).json({ "error": "missing info" })
@@ -52,8 +64,11 @@ app.post("/v1/login", wrap(async (req, res) => {
         });
     }
 
+    const user = await users.getUser(req.body.email)
+
     const token = jwt.sign({
         email: req.body.email,
+        isAdmin: user.isAdmin,
         test: "ok",
     }, cert, {
         audience: "https://lgu-backend.dispatch.sh/",
