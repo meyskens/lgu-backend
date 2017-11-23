@@ -10,9 +10,13 @@ before_install:
     $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y install docker-ce
-  
+
 before_script:
-  - sed -i 's/$MONGOURL/'$MONGO_URL'/g' Dockerfile
+  - sed -i 's/$MONGOUSER/'$MONGO_USER'/g' Dockerfile
+  - sed -i 's/$MONGOPASS/'$MONGO_PASS'/g' Dockerfile
+  - sed -i 's/$MONGOHOST/'$MONGO_HOST'/g' Dockerfile
+  - sed -i 's/$MONGOPORT/'$MONGO_PORT'/g' Dockerfile
+  - sed -i 's/$MONGODB/'$MONGO_DB'/g' Dockerfile
   - sudo apt-get -y install qemu-user-static
   - docker run --rm --privileged multiarch/qemu-user-static:register
 script:
