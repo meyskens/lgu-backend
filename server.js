@@ -19,7 +19,7 @@ app.use("/v1/user/*", expressJwt({
     audience: "https://lgu-backend.dispatch.sh/",
 }));
 
-app.all("/control/*", function checkToken(req, res, next) {
+app.all("/v1/user/*", function checkToken(req, res, next) {
     wait.launchFiber(() => {
         let [scheme, token] = req.headers.authorization.split(" ");
         if (!/^Bearer$/i.test(scheme)) {
