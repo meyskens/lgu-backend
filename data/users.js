@@ -1,5 +1,3 @@
-import { Stream } from "stream";
-
 const db = require("./mongodb")
 const Schema = require("mongoose").Schema
 const bcrypt = require('bcrypt');
@@ -10,6 +8,7 @@ const UserSchema = new Schema({
     phone: String,
     firstName: String,
     lastName: String,
+    isAdmin: Boolean,
 }, { collection: "users" }) 
 
 UserSchema.index({
@@ -19,7 +18,7 @@ UserSchema.index({
 const UserModel = db.model("users", UserSchema, "users")
 
 module.exports.checkLogin = async (email, password) => { 
-    const user = await PersonModel.findOne({ email }) 
+    const user = await UserModel.findOne({ email }) 
     if (user == null) {
         return false
     }
