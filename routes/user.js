@@ -6,7 +6,7 @@ module.exports = ({ app, wrap }) => {
             return res.status(400).json({ "error":"Bad user session" })
         }
         const user = await users.getUser(req.user.email)
-        delete user.password
+        user.password = null
         res.json(user)
     }))
 }
