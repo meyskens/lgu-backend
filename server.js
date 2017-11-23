@@ -26,11 +26,6 @@ app.use(bodyParser.urlencoded({
     extended: true,
 }))
 
-app.use("/v1/user/*", expressJwt({
-    secret: publicKey,
-    audience: "https://lgu-backend.dispatch.sh/",
-}))
-
 app.all("/v1/user/*", (req, res, next) => {
         let [scheme, token] = req.headers.authorization.split(" ");
         if (!/^Bearer$/i.test(scheme)) {
@@ -51,6 +46,12 @@ app.all("/v1/admin/*", (req, res, next) => {
     }
     return next() // allow request to continue
 });
+
+
+app.use("/v1/user/*", expressJwt({
+    secret: publicKey,
+    audience: "https://lgu-backend.dispatch.sh/",
+}))
 
 app.post("/v1/login", wrap(async (req, res) => {
     if (!req.body || !req.body.email || !req.body.password) {
