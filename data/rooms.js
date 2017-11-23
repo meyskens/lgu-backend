@@ -7,6 +7,12 @@ const RoomSchema = new Schema({
     height: Number,
     location: String,
     description: String,
+    dependsOn: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "rooms",
+        },
+    ],
 }, { collection: "rooms" }) 
 
 const RoomModel = db.model("rooms", RoomSchema, "room")
