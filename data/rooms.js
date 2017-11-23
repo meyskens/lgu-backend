@@ -9,8 +9,4 @@ const RoomSchema = new Schema({
     description: String,
 }, { collection: "rooms" }) 
 
-RoomSchema.index({
-    email: 1,
-});
-
 const RoomModel = db.model("rooms", RoomSchema, "room")
