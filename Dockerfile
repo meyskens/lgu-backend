@@ -4,6 +4,7 @@ RUN apk add --no-cache ca-certificates nodejs make gcc g++ python linux-headers 
 
 COPY ./ /opt/lgu-backend
 WORKDIR /opt/lgu-backend
+RUN mv ./.cache/nm ./node_modules
 RUN npm i
 
 ENV MONGOUSER=$MONGOUSER
