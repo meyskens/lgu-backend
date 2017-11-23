@@ -11,6 +11,9 @@ const cert = fs.readFileSync("./keys/signingKey.pem");
 // db objects
 const users = require("./data/users")
 
+// Used in route handlers to catch async exceptions as if they were synchronous.
+let wrap = fn => (...args) => fn(...args).catch(args[2]);
+
 app.use("/v1/user/*", expressJwt({
     secret: publicKey,
     audience: "https://lgu-backend.dispatch.sh/",
