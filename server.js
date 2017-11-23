@@ -97,6 +97,6 @@ for (let module of modules) {
     }
 }
 
-app.listen(8080, () => {
+app.listen(parseInt(process.env.PORT, 10), () => {
     console.log("Server started")
 })
