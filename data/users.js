@@ -1,3 +1,5 @@
+import { Stream } from "stream";
+
 const db = require("./mongodb")
 const Schema = require("mongoose").Schema
 const bcrypt = require('bcrypt');
@@ -5,6 +7,9 @@ const bcrypt = require('bcrypt');
 const UserSchema = new Schema({
     email: String,
     password: String,
+    phone: String,
+    firstName: String,
+    lastName: String,
 }, { collection: "users" }) 
 
 UserSchema.index({

@@ -1,3 +1,5 @@
+import { Stream } from "stream";
+
 const db = require("./mongodb")
 const Schema = require("mongoose").Schema
 
@@ -13,6 +15,7 @@ const ReservationSchema = new Schema({
     },
     from: Date,
     to: Date,
+    feedback: String,
 }, { collection: "reservations" }) 
 
 
