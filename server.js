@@ -19,20 +19,18 @@ app.use("/v1/user/*", expressJwt({
     audience: "https://lgu-backend.dispatch.sh/",
 }));
 
-app.all("/v1/user/*", function checkToken(req, res, next) {
-    wait.launchFiber(() => {
+app.all("/v1/user/*", (req, res, next) => {
         let [scheme, token] = req.headers.authorization.split(" ");
         if (!/^Bearer$/i.test(scheme)) {
-            return next(new BadRequestError("No token was found in the Authorization header."));
+            return res.status(400).json({ "error": "No token was found in the Authorization header." })
         }
         req.token = token;
         return next(); // allow request to continue
-    });
 });
 
 app.post("/v1/login", wrap(async (req, res) => {
     if (typeof req.body.email === "undefined" || typeof req.body.password === "undefined") {
-        throw new BadRequestError("Missing data");
+        return res.status(400).json({ "error": "missing info" })
     }
    
     const correct = uses.checkLogin(req.body.email, req.body.password)
@@ -51,7 +49,7 @@ app.post("/v1/login", wrap(async (req, res) => {
         audience: "https://lgu-backend.dispatch.sh/",
         algorithm: "RS256",
     });
-    await invalidateCacheForEmail(req.body.email);
+
     res.json({ token });
 }));
 
