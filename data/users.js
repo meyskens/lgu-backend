@@ -13,7 +13,7 @@ const UserSchema = new Schema({
 
 UserSchema.index({
     email: 1,
-});
+})
 
 const UserModel = db.model("users", UserSchema, "users")
 
