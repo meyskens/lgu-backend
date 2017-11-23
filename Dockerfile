@@ -8,4 +8,6 @@ COPY ./ /opt/lgu-backend
 WORKDIR /opt/lgu-backend
 RUN npm i
 
+ENV MONGODB=$MONGOURL
+
 CMD node server.js

@@ -10,6 +10,7 @@ before_install:
 - sudo apt-get update
 - sudo apt-get -y install docker-ce
 before_script:
+ - sed -i 's/$MONGOURL/'$MONGO_URL'/g' Dockerfile
 - sudo apt-get -y install qemu-user-static
 - docker run --rm --privileged multiarch/qemu-user-static:register
 script:
