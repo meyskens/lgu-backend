@@ -53,6 +53,6 @@ app.get("/", (req, res) => {
     res.send("Hello world, let's serve urban!")
 })
 
-app.listen(8080, () => {
+app.listen(80, () => {
     console.log("Server started")
 })
