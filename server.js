@@ -75,6 +75,7 @@ app.post("/v1/login", wrap(async (req, res) => {
     }, cert, {
         audience: "https://lgu-backend.dispatch.sh/",
         algorithm: "RS256",
+        expiresIn: 7200,
     })
 
     res.json({ token })
