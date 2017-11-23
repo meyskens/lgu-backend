@@ -4,7 +4,10 @@ const db = require("./mongodb")
 const Schema = require("mongoose").Schema
 
 const ReservationSchema = new Schema({
-    reason: String,
+    reason: {
+        type: String,
+        required: true,
+    },
     user: {
         type: Schema.Types.ObjectId,
         ref: "users",
@@ -13,9 +16,18 @@ const ReservationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "rooms",
     },
-    from: Date,
-    to: Date,
-    feedback: String,
+    from: {
+        type: Date,
+        required: true,
+    },
+    to: {
+        type: Date,
+        required: true,
+    },
+    feedback: {
+        type: String,
+        required: true,
+    },
 }, { collection: "reservations" }) 
 
 

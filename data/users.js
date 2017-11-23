@@ -3,12 +3,21 @@ const Schema = require("mongoose").Schema
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
-    email: String,
-    password: String,
+    email: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
     phone: String,
     firstName: String,
     lastName: String,
-    isAdmin: Boolean,
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
 }, { collection: "users" }) 
 
 UserSchema.index({
