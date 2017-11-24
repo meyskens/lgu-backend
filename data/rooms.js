@@ -21,3 +21,6 @@ const RoomModel = db.model("rooms", RoomSchema, "rooms")
 module.exports.getAll = () => {
     return RoomModel.find({})
 }
+module.exports.get = (id) => {
+    return RoomModel.find({  _id: new Schema.Types.ObjectId(id) })
+}
