@@ -18,7 +18,7 @@ const users = require("./data/users")
 let wrap = fn => (...args) => fn(...args).catch(args[2])
 
 
-if (process.env.NOCORS) {
+if (!process.env.NOCORS) {
     app.use(cors());
     app.options("*", cors())
 }
