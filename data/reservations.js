@@ -57,3 +57,16 @@ module.exports.update = (reservation) => {
     reservation._id = new Schema.Types.ObjectId(reservation._id)
     RoomModel.update({ _id: reservation._id }, reservation).exec()
 }
+
+module.exports.isTimeAvailable = (roomId, start, end) => {
+    roomId = new Schema.Types.ObjectId(roomId)
+    const reservations = RoomModel.find({
+        room: roomId,
+        $or: [
+            { startTime: { $gte: start, $lte: end } },
+            { endTime: { $gte: start, $lte: end } },
+        ],
+    }).populate("user").populate("room").exec()
+    
+    return reservations.length() == 0
+}
