@@ -18,7 +18,7 @@ module.exports = ({ app, wrap }) => {
         req.body._id = req.params.id
         await reservations.update(req.body)
         if (req.body.confirmed) {
-            await nofify.notifyConfirmed(reservation.user, reservation)
+            nofify.notifyConfirmed(reservation.user, reservation)
         }
         return res.json({ result: "ok" })
     }))
@@ -28,7 +28,7 @@ module.exports = ({ app, wrap }) => {
         if (!reservation) {
             return res.status(400).json({ error: "reservation not found" })
         }
-        await nofify.notifyDeclined(reservation.user, reservation)
+        nofify.notifyDeclined(reservation.user, reservation)
         await reservations.remove(req.params.id)
 
         return res.json({ result: "ok" })
