@@ -38,5 +38,11 @@ const ReservationSchema = new Schema({
 const ReservationModel = db.model("reservations", RoomSchema, "reservations")
 
 module.exports.getAll = () => {
-    return ReservationModel.find({})
+    return ReservationModel.find({}).populate("user").populate("room").exec()
+}
+
+module.exports.add = (reservation) => {
+    reservation.user = new Schema.Types.ObjectId(reservation.user)
+    reservation.room = new Schema.Types.ObjectId(reservation.room)
+    return ReservationModel(reservation).save()
 }
