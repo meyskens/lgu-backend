@@ -39,8 +39,21 @@ module.exports.getAll = () => {
     return ReservationModel.find({}).populate("user").populate("room").exec()
 }
 
+module.exports.get = (id) => {
+    return ReservationModel.findOne({  _id: new Schema.Types.ObjectId(id) }).populate("user").populate("room").exec()
+}
+
+module.exports.remove = (id) => {
+    return ReservationModel.remove({  _id: new Schema.Types.ObjectId(id) }).exec()
+}
+
 module.exports.add = (reservation) => {
     reservation.user = new Schema.Types.ObjectId(reservation.user)
     reservation.room = new Schema.Types.ObjectId(reservation.room)
     return ReservationModel(reservation).save()
+}
+
+module.exports.update = (reservation) => {
+    reservation._id = new Schema.Types.ObjectId(reservation._id)
+    CastModel.update({ _id: reservation._id }, reservation).exec()
 }
