@@ -28,6 +28,10 @@ const ReservationSchema = new Schema({
         type: String,
         required: true,
     },
+    confirmed: {
+        type: Boolean,
+        required: true,
+    },
 }, { collection: "reservations" }) 
 
 
