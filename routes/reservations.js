@@ -7,7 +7,7 @@ module.exports = ({ app, wrap }) => {
         return res.json(await reservations.getAll())
     }))
 
-    app.put("/v1/user/reservations", wrap(async (req, res) => {
+    app.post("/v1/user/reservations", wrap(async (req, res) => {
         const user = await user.get(req.user.email)
         req.body.user = user._id
         await reservations.add(req.body)
