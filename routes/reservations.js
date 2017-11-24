@@ -1,6 +1,6 @@
 const reservations = require("../data/reservations")
 const users = require("../data/users")
-const nofify = require("../service/nofify")
+const nofify = require("../services/notify")
 
 module.exports = ({ app, wrap }) => {
     app.get("/v1/reservations", wrap(async (req,res) => {
