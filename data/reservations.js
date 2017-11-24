@@ -36,3 +36,7 @@ const ReservationSchema = new Schema({
 
 
 const ReservationModel = db.model("reservations", RoomSchema, "reservations")
+
+module.exports.getAll = () => {
+    return ReservationModel.find({})
+}
