@@ -4,7 +4,7 @@ const nofify = require("../services/notify")
 
 module.exports = ({ app, wrap }) => {
     app.get("/v1/reservations", wrap(async (req,res) => {
-        return res.json(await reservations.getAll())
+        return res.json(await reservations.getAllWithoutUser())
     }))
 
     app.post("/v1/user/reservations", wrap(async (req, res) => {
@@ -32,5 +32,9 @@ module.exports = ({ app, wrap }) => {
         await reservations.remove(req.params.id)
 
         return res.json({ result: "ok" })
+    }))
+
+    app.get("/v1/admin/reservations", wrap(async (req,res) => {
+        return res.json(await reservations.getAll())
     }))
 }

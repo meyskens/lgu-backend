@@ -40,6 +40,10 @@ module.exports.getAll = () => {
     return ReservationModel.find({}).populate("user").populate("room").exec()
 }
 
+module.exports.getAllWithoutUser = () => {
+    return ReservationModel.find({}).populate("room").exec()
+}
+
 module.exports.get = (id) => {
     return ReservationModel.findOne({  _id: new Schema.Types.ObjectId(id) }).populate("user").populate("room").exec()
 }
