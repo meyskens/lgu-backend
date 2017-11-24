@@ -10,7 +10,7 @@ module.exports = ({ app, wrap }) => {
     app.post("/v1/user/reservations", wrap(async (req, res) => {
         const user = await user.get(req.user.email)
         req.body.user = user._id
-        await reservations.add(req.body)
+        return res.json(await reservations.add(req.body))
     }))
 
     app.patch("/v1/admin/reservations/:id", wrap(async (req, res) => {
