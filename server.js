@@ -68,7 +68,7 @@ app.post("/v1/login", wrap(async (req, res) => {
         })
     }
 
-    const user = await users.getUser(req.body.email)
+    const user = await users.get(req.body.email)
 
     const token = jwt.sign({
         email: req.body.email,

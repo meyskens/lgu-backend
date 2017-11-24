@@ -17,6 +17,7 @@ before_script:
   - sed -i 's/$MONGOHOST/'$MONGO_HOST'/g' Dockerfile
   - sed -i 's/$MONGOPORT/'$MONGO_PORT'/g' Dockerfile
   - sed -i 's/$MONGODB/'$MONGO_DB'/g' Dockerfile
+  - sed -i 's/$TWILIO/'$TWILIO_PRIVATE'/g' Dockerfile
   - sudo apt-get -y install qemu-user-static
   - docker run --rm --privileged multiarch/qemu-user-static:register
 script:
