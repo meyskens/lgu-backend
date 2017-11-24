@@ -9,6 +9,9 @@ module.exports = ({ app, wrap }) => {
 
     app.post("/v1/user/reservations", wrap(async (req, res) => {
         const user = await users.get(req.user.email)
+        if (!(await reservations.isTimeAvailable(req.body.room, reg.body.from, req.body.to))) {
+            return res.status(400).json({ error: "scheduling conflict" })
+        }
         req.body.user = user._id
         req.body.confirmed = false
         return res.json(await reservations.add(req.body))
