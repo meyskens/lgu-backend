@@ -83,6 +83,5 @@ module.exports.isTimeAvailable = async (roomId, start, end) => {
         }).exec())
     }
     
-
     return reservations.length === 0
 }
