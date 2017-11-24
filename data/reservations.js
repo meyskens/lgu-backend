@@ -1,5 +1,6 @@
 const db = require("./mongodb")
 const Schema = require("mongoose").Schema
+const rooms = require("./rooms")
 
 const ReservationSchema = new Schema({
     reason: {
@@ -45,33 +46,43 @@ module.exports.getAllWithoutUser = () => {
 }
 
 module.exports.get = (id) => {
-    return ReservationModel.findOne({  _id: new Schema.Types.ObjectId(id) }).populate("user").populate("room").exec()
+    return ReservationModel.findOne({  _id: id }).populate("user").populate("room").exec()
 }
 
 module.exports.remove = (id) => {
-    return ReservationModel.remove({  _id: new Schema.Types.ObjectId(id) }).exec()
+    return ReservationModel.remove({  _id: id }).exec()
 }
 
 module.exports.add = (reservation) => {
-    //reservation.user = new Schema.Types.ObjectId(reservation.user)
-    //reservation.room = new Schema.Types.ObjectId(reservation.room)
     return ReservationModel(reservation).save()
 }
 
 module.exports.update = (reservation) => {
-    reservation._id = new Schema.Types.ObjectId(reservation._id)
-    RoomModel.update({ _id: reservation._id }, reservation).exec()
+    ReservationModel.update({ _id: reservation._id }, reservation).exec()
 }
 
-module.exports.isTimeAvailable = (roomId, start, end) => {
-    roomId = new Schema.Types.ObjectId(roomId)
-    const reservations = RoomModel.find({
+module.exports.isTimeAvailable = async (roomId, start, end) => {
+    const room = await rooms.get(roomId)
+   
+    const reservations = []
+    reservations.concat(await ReservationModel.find({
         room: roomId,
         $or: [
             { startTime: { $gte: start, $lte: end } },
             { endTime: { $gte: start, $lte: end } },
         ],
-    }).populate("user").populate("room").exec()
+    }).exec())
     
-    return reservations.length() == 0
+    for (let dependRoom of room.dependsOn) {
+        reservations.concat(await ReservationModel.find({
+            room: dependRoom,
+            $or: [
+                { startTime: { $gte: start, $lte: end } },
+                { endTime: { $gte: start, $lte: end } },
+            ],
+        }).exec())
+    }
+    
+
+    return reservations.length === 0
 }

@@ -11,7 +11,7 @@ module.exports = ({ app, wrap }) => {
     }))
 
     app.get("/v1/rooms/:id/available", wrap(async (req,res) => {
-        return res.json({ available:reservations.isTimeAvailable(req.params.id, new Date(req,query.start), new Date(req,query.end)) })
+        return res.json({ available: await reservations.isTimeAvailable(req.params.id, new Date(req.query.start), new Date(req.query.end)) })
     }))
 
     app.post("/v1/admin/rooms", wrap(async (req, res) => {

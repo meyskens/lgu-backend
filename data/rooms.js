@@ -23,23 +23,17 @@ module.exports.getAll = () => {
 }
 
 module.exports.get = (id) => {
-    return RoomModel.findOne({  _id: new Schema.Types.ObjectId(id) })
+    return RoomModel.findOne({  _id: id})
 }
 
 module.exports.remove = (id) => {
-    return RoomModel.remove({  _id: new Schema.Types.ObjectId(id) }).exec()
+    return RoomModel.remove({  _id: id }).exec()
 }
 
 module.exports.add = (room) => {
-    for (let id in room.dependsOn) {
-        if (room.dependsOn.hasOwnProperty(id)) {
-            room.dependsOn[id] = new Schema.Types.ObjectId(room.dependsOn[id]._id)
-        }
-    }
     return RoomModel(room).save()
 }
 
 module.exports.update = (room) => {
-    room._id = new Schema.Types.ObjectId(room._id)
     RoomModel.update({ _id: room._id }, room).exec()
 }
