@@ -55,5 +55,5 @@ module.exports.add = (reservation) => {
 
 module.exports.update = (reservation) => {
     reservation._id = new Schema.Types.ObjectId(reservation._id)
-    CastModel.update({ _id: reservation._id }, reservation).exec()
+    RoomModel.update({ _id: reservation._id }, reservation).exec()
 }
