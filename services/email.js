@@ -5,7 +5,6 @@ let transporter
 
 (async () =>{
     const account = await nodemailer.createTestAccount() // Dear future user, please replace me with a real server! I want to be a real app
-    console.log(account)
     transporter = nodemailer.createTransport({
         host: 'smtp.ethereal.email',
         port: 587,
