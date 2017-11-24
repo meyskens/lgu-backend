@@ -1,5 +1,3 @@
-import { Query } from "mongoose";
-
 const rooms = require("../data/rooms")
 const reservations = require("../data/reservations")
 
