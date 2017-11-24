@@ -18,6 +18,11 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    contact: {
+        type: String,
+        enum: ["email", "sms"],
+        default: "email",
+    }
 }, { collection: "users" }) 
 
 UserSchema.index({
