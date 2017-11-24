@@ -21,10 +21,11 @@ const ReservationSchema = new Schema({
     to: {
         type: Date,
         required: true,
+        expires: "60d",
     },
     feedback: {
         type: String,
-        required: true,
+        required: false,
     },
     confirmed: {
         type: Boolean,
@@ -48,8 +49,8 @@ module.exports.remove = (id) => {
 }
 
 module.exports.add = (reservation) => {
-    reservation.user = new Schema.Types.ObjectId(reservation.user)
-    reservation.room = new Schema.Types.ObjectId(reservation.room)
+    //reservation.user = new Schema.Types.ObjectId(reservation.user)
+    //reservation.room = new Schema.Types.ObjectId(reservation.room)
     return ReservationModel(reservation).save()
 }
 
