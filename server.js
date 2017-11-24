@@ -80,7 +80,7 @@ app.post("/v1/login", wrap(async (req, res) => {
         expiresIn: 7200,
     })
 
-    res.json({ token })
+    res.json({ token, isAdmin: user.isAdmin })
 }))
 
 // Load in all needed routes
