@@ -1,4 +1,4 @@
-const sms = require("./services/sms")
+const sms = require("../services/sms")
 
 module.exports = ({ app, wrap }) => {
     app.get("/v1/test/sms", wrap(async(req, res) => {
