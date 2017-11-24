@@ -21,7 +21,6 @@ const ReservationSchema = new Schema({
     to: {
         type: Date,
         required: true,
-        expires: "60d",
     },
     feedback: {
         type: String,
@@ -33,6 +32,7 @@ const ReservationSchema = new Schema({
     },
 }, { collection: "reservations" }) 
 
+ReservationSchema.path('to').expires('60d');
 
 const ReservationModel = db.model("reservations", ReservationSchema, "reservations")
 
