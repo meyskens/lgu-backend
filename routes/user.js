@@ -5,7 +5,7 @@ module.exports = ({ app, wrap }) => {
         if (!req.user.email) {
             return res.status(400).json({ "error":"Bad user session" })
         }
-        const user = await users.getUser(req.user.email)
+        const user = await users.get(req.user.email)
         user.password = null
         res.json(user)
     }))
