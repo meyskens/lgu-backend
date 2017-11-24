@@ -19,11 +19,11 @@ const RoomSchema = new Schema({
 const RoomModel = db.model("rooms", RoomSchema, "rooms")
 
 module.exports.getAll = () => {
-    return RoomModel.findOne({})
+    return RoomModel.find({})
 }
 
 module.exports.get = (id) => {
-    return RoomModel.find({  _id: new Schema.Types.ObjectId(id) })
+    return RoomModel.findOne({  _id: new Schema.Types.ObjectId(id) })
 }
 
 module.exports.remove = (id) => {
