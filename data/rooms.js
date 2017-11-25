@@ -35,5 +35,5 @@ module.exports.add = (room) => {
 }
 
 module.exports.update = (room) => {
-    RoomModel.update({ _id: room._id }, room).exec()
+    RoomModel.update({ _id: room._id }, room, { overwrite: true }).exec()
 }

@@ -58,7 +58,7 @@ module.exports.add = (reservation) => {
 }
 
 module.exports.update = (reservation) => {
-    ReservationModel.update({ _id: reservation._id }, reservation).exec()
+    ReservationModel.update({ _id: reservation._id }, reservation, { overwrite: true }).exec()
 }
 
 module.exports.isTimeAvailable = async (roomId, start, end) => {
