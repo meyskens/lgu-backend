@@ -23,7 +23,7 @@ module.exports = ({ app, wrap }) => {
     }))
 
     app.delete("/v1/admin/rooms/:id", wrap(async (req, res) => {
-        await rooms.delete(req.params.id)
+        await rooms.remove(req.params.id)
         return res.json({ result: "ok" })
     }))
     
