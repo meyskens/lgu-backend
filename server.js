@@ -28,6 +28,16 @@ app.use(bodyParser.urlencoded({
     extended: true,
 }))
 
+app.use("/v1/user/*", expressJwt({
+    secret: publicKey,
+    audience: "https://lgu-backend.dispatch.sh/",
+}))
+
+app.use("/v1/admin/*", expressJwt({
+    secret: publicKey,
+    audience: "https://lgu-backend.dispatch.sh/",
+}))
+
 app.all("/v1/user/*", (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(400).json({ "error": "No Authorization header." })
@@ -56,10 +66,6 @@ app.all("/v1/admin/*", (req, res, next) => {
 });
 
 
-app.use("/v1/user/*", expressJwt({
-    secret: publicKey,
-    audience: "https://lgu-backend.dispatch.sh/",
-}))
 
 app.post("/v1/login", wrap(async (req, res) => {
     if (!req.body || !req.body.email || !req.body.password) {
