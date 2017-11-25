@@ -29,15 +29,21 @@ app.use(bodyParser.urlencoded({
 }))
 
 app.all("/v1/user/*", (req, res, next) => {
-        let [scheme, token] = req.headers.authorization.split(" ");
-        if (!/^Bearer$/i.test(scheme)) {
-            return res.status(400).json({ "error": "No token was found in the Authorization header." })
-        }
-        req.token = token
-        return next() // allow request to continue
+    if (!req.headers.authorization) {
+        return res.status(400).json({ "error": "No Authorization header." })
+    }
+    let [scheme, token] = req.headers.authorization.split(" ");
+    if (!/^Bearer$/i.test(scheme)) {
+        return res.status(400).json({ "error": "No token was found in the Authorization header." })
+    }
+    req.token = token
+    return next() // allow request to continue
 });
 
 app.all("/v1/admin/*", (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(400).json({ "error": "No Authorization header." })
+    }
     let [scheme, token] = req.headers.authorization.split(" ");
     if (!/^Bearer$/i.test(scheme)) {
         return res.status(400).json({ "error": "No token was found in the Authorization header." })
